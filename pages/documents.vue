@@ -58,17 +58,17 @@ import { useArtifact, listArtifacts, removeArtifact } from '@legalblocks/module-
 import config from '../legalblocks.config.json';
 
 // Config threaded from the builder. `documents_endpoint` (an artifact_endpoint bound
-// to the "lawnotation.document" prefix) decides whether these documents live in
+// to the "document" prefix) decides whether these documents live in
 // browser storage or a database — this page's code is identical either way.
 const P = config.params?.documentManagement ?? {};
 const allowedTypes = P.allowed_types ?? 'txt,md,html,pdf,doc,docx';
 const maxFileSizeMb = P.max_file_size_mb ?? '10';
 const enablePdf = P.enable_pdf ?? 'on';
 const enableDocx = P.enable_docx ?? 'on';
-const screenCopy = config.screens?.find((s) => s.type === 'lawnotation.list')?.copy ?? {};
+const screenCopy = config.screens?.find((s) => s.type === 'list')?.copy ?? {};
 
 // One artifact per document under this prefix; the list screen enumerates them.
-const PREFIX = 'lawnotation.document.';
+const PREFIX = 'document.';
 const docKey = (id) => PREFIX + id;
 
 const documents = ref([]);
@@ -84,10 +84,10 @@ const filtered = computed(() => {
 // --- persistence (all through the bus; adapter resolved from config) ----------
 function envelope(record) {
   return {
-    artifact_type: 'lawnotation.document',
+    artifact_type: 'document',
     schema_version: '2.0.0',
     payload: record,
-    lineage: { produced_by_package: 'lawnotation.document-management', produced_by_module: 'documentManagement' },
+    lineage: { produced_by_package: 'document-management', produced_by_module: 'documentManagement' },
   };
 }
 
@@ -106,7 +106,7 @@ async function refresh() {
 }
 
 // Backward-compatibility shim: the annotate screen still reads a single
-// `lawnotation.document_set`. We derive it from the per-document store and expose
+// `document-set`. We derive it from the per-document store and expose
 // every field a consumer might want: `segments` (AnnotationUI), `text`/`full_text`
 // (unused today; kept for a future text-extraction integration). Dropped once
 // consumers read by prefix.
@@ -125,8 +125,8 @@ async function rebuildAggregate() {
     text: d.full_text,
     segments: segmentText(d.full_text),
   }));
-  await useArtifact('lawnotation.document_set')
-    .write({ artifact_type: 'lawnotation.document_set', schema_version: '1.0.0', payload: { documents: docs } })
+  await useArtifact('document-set')
+    .write({ artifact_type: 'document-set', schema_version: '1.0.0', payload: { documents: docs } })
     .catch(() => {});
 }
 

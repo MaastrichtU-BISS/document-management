@@ -8,13 +8,13 @@ from Lawnotation and made storage-agnostic.
   `.doc` is not supported — mammoth's `extractRawText` only reliably parses OOXML
   `.docx`.
 - List, search, view, delete, and bulk-delete documents.
-- Stores **one artifact per document** (`lawnotation.document.<id>`) plus a derived
-  `lawnotation.document_set` aggregate for the downstream annotate screen.
+- Stores **one artifact per document** (`document.<id>`) plus a derived
+  `document-set` aggregate for the downstream annotate screen.
 
 ## Storage-agnostic
 
 The module persists through `@legalblocks/module-runtime`. Its `documents_endpoint`
-param binds the `lawnotation.document` prefix:
+param binds the `document` prefix:
 
 - default `{ "adapter": "local" }` → browser storage (zero backend).
 - `{ "adapter": "http", "endpoint": "…/v1" }` → a database, via any backend
@@ -31,8 +31,8 @@ No module code changes between the two — see the repo's
 | `max_file_size_mb` | string | `10` (0/blank = no limit) |
 | `enable_pdf` | enum on/off | `on` |
 | `enable_docx` | enum on/off | `on` |
-| `documents_endpoint` | artifact_endpoint (prefix `lawnotation.document`) | `{adapter:"local"}` |
+| `documents_endpoint` | artifact_endpoint (prefix `document`) | `{adapter:"local"}` |
 
 ## Screen
 
-Provides `lawnotation.list` → route `/list`.
+Provides `list` → route `/list`.

@@ -6,10 +6,10 @@
   "type": "module",
   "license": "MIT",
   "legalblocks": {
-    "package_id": "lawnotation.document-management",
+    "package_id": "document-management",
     "manifest": "package.manifest.json",
     "execution_type": "frontend",
-    "provides_screen": "lawnotation.list"
+    "provides_screen": "list"
   },
   "main": "DocumentManagement.vue",
   "files": [

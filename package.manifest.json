@@ -1,17 +1,17 @@
 {
-  "package_id": "lawnotation.document-management",
+  "package_id": "document-management",
   "package_version": "2.0.0",
   "package_type": "legalblocks.module_package",
   "artifact_types": [
     {
-      "id": "lawnotation.document",
+      "id": "document",
       "label": "document",
       "color": "#D4421E",
       "short": "doc"
     },
     {
-      "id": "lawnotation.document_set",
-      "label": "document_set",
+      "id": "document-set",
+      "label": "document-set",
       "color": "#D4421E",
       "short": "docs"
     }
@@ -31,7 +31,7 @@
       "outputs": [
         {
           "port_id": "documents",
-          "artifact_type": "lawnotation.document_set"
+          "artifact_type": "document-set"
         }
       ],
       "configuration": {
@@ -71,7 +71,7 @@
             "type": "artifact_endpoint",
             "label": "Document store",
             "help": "Where documents persist. local = browser storage; http = a database service implementing the artifact REST contract.",
-            "artifact_key": "lawnotation.document",
+            "artifact_key": "document",
             "match": "prefix",
             "default": {
               "adapter": "local"
@@ -85,11 +85,11 @@
       },
       "permissions": ["read_documents", "write_documents"],
       "provides_screen": {
-        "screen_type_id": "lawnotation.list",
+        "screen_type_id": "list",
         "label": "Documents",
         "glyph": "▤",
         "desc": "Upload, browse, view and delete corpus documents.",
-        "needs": ["lawnotation.document_set"],
+        "needs": ["document-set"],
         "optional": [],
         "page_template": "pages/documents.vue"
       }
