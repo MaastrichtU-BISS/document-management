@@ -1,0 +1,98 @@
+{
+  "package_id": "lawnotation.document-management",
+  "package_version": "2.0.0",
+  "package_type": "legalblocks.module_package",
+  "artifact_types": [
+    {
+      "id": "lawnotation.document",
+      "label": "document",
+      "color": "#D4421E",
+      "short": "doc"
+    },
+    {
+      "id": "lawnotation.document_set",
+      "label": "document_set",
+      "color": "#D4421E",
+      "short": "docs"
+    }
+  ],
+  "modules": [
+    {
+      "module_id": "documentManagement",
+      "label": "Document Management",
+      "category": "source",
+      "glyph": "⤓",
+      "family": "source",
+      "display": {
+        "sub": "document · upload + manage",
+        "note": "Upload, list, view and delete corpus documents; stores one artifact per document"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "port_id": "documents",
+          "artifact_type": "lawnotation.document_set"
+        }
+      ],
+      "configuration": {
+        "parameters": [
+          {
+            "name": "allowed_types",
+            "type": "string",
+            "label": "Allowed File Types",
+            "help": "Comma-separated extensions (no dots), e.g. txt,md,html,pdf,docx",
+            "default": "txt,md,html,pdf,docx"
+          },
+          {
+            "name": "max_file_size_mb",
+            "type": "string",
+            "label": "Max File Size (MB)",
+            "help": "Per-file upload limit in megabytes. 0 or blank = no limit.",
+            "default": "10"
+          },
+          {
+            "name": "enable_pdf",
+            "type": "enum",
+            "label": "PDF text extraction",
+            "help": "Extract text from PDF uploads in-browser (pdf.js, loaded on demand).",
+            "options": ["on", "off"],
+            "default": "on"
+          },
+          {
+            "name": "enable_docx",
+            "type": "enum",
+            "label": "DOCX text extraction",
+            "help": "Extract text from Word (.docx) uploads in-browser (mammoth, loaded on demand).",
+            "options": ["on", "off"],
+            "default": "on"
+          },
+          {
+            "name": "documents_endpoint",
+            "type": "artifact_endpoint",
+            "label": "Document store",
+            "help": "Where documents persist. local = browser storage; http = a database service implementing the artifact REST contract.",
+            "artifact_key": "lawnotation.document",
+            "match": "prefix",
+            "default": {
+              "adapter": "local"
+            }
+          }
+        ]
+      },
+      "execution": {
+        "type": "frontend",
+        "entrypoint": "DocumentManagement.vue"
+      },
+      "permissions": ["read_documents", "write_documents"],
+      "provides_screen": {
+        "screen_type_id": "lawnotation.list",
+        "label": "Documents",
+        "glyph": "▤",
+        "desc": "Upload, browse, view and delete corpus documents.",
+        "needs": ["lawnotation.document_set"],
+        "optional": [],
+        "page_template": "pages/documents.vue"
+      }
+    }
+  ]
+}
